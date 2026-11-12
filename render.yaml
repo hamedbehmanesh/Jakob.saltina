@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: canyon-bridge-studio
+    runtime: node
+    plan: starter        # same paid tier as the spray app; avoids cold starts
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
