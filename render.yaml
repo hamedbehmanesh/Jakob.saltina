@@ -1,10 +1,43 @@
+# Render Blueprint - Bridge Studio website (static, no build step)
+# Render dashboard: New + > Blueprint > pick this repo.  (Or New + > Static Site: Build Command "echo ok", Publish Directory ".")
 services:
   - type: web
-    name: canyon-bridge-studio
-    runtime: node
-    plan: starter        # same paid tier as the spray app; avoids cold starts
-    buildCommand: npm install
-    startCommand: npm start
-    envVars:
-      - key: NODE_VERSION
-        value: "20"
+    name: bridge-studio
+    runtime: static
+    buildCommand: echo "static site - nothing to build"
+    staticPublishPath: .
+    # domains:                 # add once you own the domain (www.<domain> is added automatically)
+    #   - bridgestudio.com
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: sameorigin
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: X-Robots-Tag
+        value: noindex, nofollow
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    routes:
+      # bridgestudio.com/saltina  ->  bridgestudio.com/saltina/   (same for every bridge)
+      - type: redirect
+        source: /saltina
+        destination: /saltina/
+      - type: redirect
+        source: /issyk-kul-2
+        destination: /issyk-kul-2/
+      - type: redirect
+        source: /issyk-kul
+        destination: /issyk-kul/
+      - type: redirect
+        source: /varese
+        destination: /varese/
+      - type: redirect
+        source: /chur
+        destination: /chur/
